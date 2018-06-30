@@ -72,8 +72,8 @@
                             <?php echo $tampil['nama'];?></a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
-                                    <li><a href="?page=profil&id=<?php echo $tampil['id'];?>"><i class="ti-user"></i> Profile</a></li>
-                                    <li><a href="?page=profil&aksi=gantipassword&id=<?php echo $tampil['id'];?>"><i class="ti-key"></i> Ganti Password</a></li>
+                                    <li><a href="?page=profil"><i class="ti-user"></i> Profile</a></li>
+                                    <li><a href="?page=profil&aksi=gantipassword"><i class="ti-key"></i> Ganti Password</a></li>
                                     <li><a href="keluar.php"><i class="fa fa-power-off"></i> Keluar</a></li>
                                 </ul>
                             </div>

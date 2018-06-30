@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2018 at 08:19 PM
+-- Generation Time: Jun 30, 2018 at 05:24 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -43,10 +43,10 @@ CREATE TABLE `tb_barang` (
 --
 
 INSERT INTO `tb_barang` (`barcode`, `nama_barang`, `kategori`, `harga_beli`, `stock`, `harga_jual`, `profit`) VALUES
-('12345678910', 'BLACKPINK MINI ALBUM', '1', 100000, 74, 125000, 25000),
-('800067600002B', 'Xiaomi Redmi 5 Plus 64GB', '3', 2500000, 44, 2800000, 300000),
-('8991906109992', 'Djarum Super MLD Black Series', '2', 17500, 91, 18000, 500),
-('97476231761', 'iKON RETURN ALBUM', '1', 125000, 85, 150000, 25000);
+('12345678910', 'BLACKPINK MINI ALBUM', '1', 100000, 72, 125000, 25000),
+('800067600002B', 'Xiaomi Redmi 5 Plus 64GB', '3', 2500000, 43, 2800000, 300000),
+('8991906109992', 'Djarum Super MLD Black Series', '2', 17500, 89, 18000, 500),
+('97476231761', 'iKON RETURN ALBUM', '1', 125000, 81, 150000, 25000);
 
 -- --------------------------------------------------------
 
@@ -71,8 +71,8 @@ CREATE TABLE `tb_datapenjualan` (
 --
 
 INSERT INTO `tb_datapenjualan` (`kode_penjualan`, `bayar`, `kembali`, `diskon`, `potongan`, `subtotal`, `tanggal`, `id_kasir`, `pembayaran`) VALUES
-('RM-5174559797', 300000, 50000, 0, 0, 250000, '2018-06-05', '1', '2'),
-('RM-9142231925', 300000, 25000, 0, 0, 275000, '2018-06-05', '1', '1');
+('RM-3861822562', 3000000, 367500, 10, 292500, 2632500, '2018-06-08', '1', '1'),
+('RM-7566116189', 300000, 0, 0, 0, 300000, '2018-06-08', '2', '2');
 
 -- --------------------------------------------------------
 
@@ -116,8 +116,8 @@ CREATE TABLE `tb_pelanggan` (
 
 INSERT INTO `tb_pelanggan` (`kode_pelanggan`, `nama`, `alamat`, `telp`, `surel`) VALUES
 (1, 'RMarket Customer', 'Serpong', '021234567890', 'rmarket@rmarket.com'),
-(2, 'Rafi', 'Pamulang', '012897411823', 'root@rafipriatna.web.id'),
-(3, 'Safina', 'Maruga', '012345678912', 'safina@runsradio.com');
+(2, 'Rafi', 'Serpong', '012897411823', 'root@rafipriatna.web.id'),
+(3, 'Safina', 'Serpong', '012345678912', 'safina@runsradio.com');
 
 -- --------------------------------------------------------
 
@@ -171,17 +171,17 @@ CREATE TABLE `tb_pengguna` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `surel` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `level` enum('Admin','Kasir') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kpn_masuk` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tb_pengguna`
 --
 
-INSERT INTO `tb_pengguna` (`id`, `nama`, `username`, `password`, `surel`, `level`, `foto`) VALUES
-(1, 'Administrator', 'admin', '$2y$10$btC4dgqBhE30tir9bJrHhe.Kon9VGLON.4DGMh.TljHO00R7hRZOi', 'root@rafipriatna.web.id', 'Admin', 'jennie.jpg'),
-(2, 'Kasir', 'kasir', '$2y$10$yZ.h.DMsODvRjhNcUTNPsu50yDkIXAtYjvIFvanA/WBVxdH9VGDDy', 'kasir@rmarket.com', 'Kasir', 'kimjen.jpg'),
-(3, 'Kasir 2', 'kasir2', '$2y$10$NtG3dpNUC5tMMHbq7NEHdepomMNnzQBN4LM9ZndpPRfp6/zf4iPoG', 'kasir2@rmarket.com', 'Kasir', 'jenniekim.jpg');
+INSERT INTO `tb_pengguna` (`id`, `nama`, `username`, `password`, `surel`, `level`, `foto`, `kpn_masuk`) VALUES
+(1, 'Administrator', 'admin', '$2y$10$eQtohKS.td8z6ETqxWbbUu.3KY0lZFQzzzfu6lsVjwrVZEIe7VF..', 'root@rafipriatna.web.id', 'Admin', 'f1a5b8b5db2c62b4e386d8580aa52c2c9cbfa3b4', '2018-06-30 15:24:21'),
+(2, 'Kasir', 'kasir', '$2y$10$7vbxDXejePndfKzkhZo7GusVLIaq/MpVk2fFYkxvIfccgwMdlgEDW', 'kasir@rmarket.com', 'Kasir', '9e1b0305a60749a168503b88fd1753af4ce3a74b', '2018-06-30 15:21:16');
 
 -- --------------------------------------------------------
 
@@ -205,9 +205,11 @@ CREATE TABLE `tb_penjualan` (
 --
 
 INSERT INTO `tb_penjualan` (`id`, `kode_penjualan`, `barcode`, `jumlah`, `total`, `tgl_penjualan`, `id_pelanggan`, `waktu_penjualan`) VALUES
-(1, 'RM-5174559797', '12345678910', 2, 250000, '2018-06-05', 1, '19:01:35'),
-(2, 'RM-9142231925', '12345678910', 1, 125000, '2018-06-05', 2, '19:02:29'),
-(3, 'RM-9142231925', '97476231761', 1, 150000, '2018-06-05', 2, '19:02:33');
+(1, 'RM-3861822562', '800067600002B', 1, 2800000, '2018-06-08', 1, '01:19:46'),
+(2, 'RM-3861822562', '12345678910', 1, 125000, '2018-06-08', 1, '01:19:54'),
+(3, 'RM-7566116189', '97476231761', 2, 300000, '2018-06-08', 1, '01:22:39'),
+(4, 'RM-3575755211', '12345678910', 1, 125000, '2018-06-19', 0, '15:34:39'),
+(6, 'RM-5368847569', '8991906109992', 1, 18000, '2018-06-20', 0, '08:15:25');
 
 --
 -- Triggers `tb_penjualan`
@@ -288,13 +290,13 @@ ALTER TABLE `tb_pembayaran`
 -- AUTO_INCREMENT for table `tb_pengguna`
 --
 ALTER TABLE `tb_pengguna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_penjualan`
 --
 ALTER TABLE `tb_penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

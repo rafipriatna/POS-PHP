@@ -1,12 +1,3 @@
-<?php
-    $id = $_GET['id'];
-// Mengambil id penggunanya berdasarkan session.
-    $rafi = $koneksi->query("SELECT * FROM tb_pengguna WHERE id = '$id'");
-    $tampil = $rafi->fetch_assoc();
-    if ($_SESSION['id'] == $id){
-
-    
-?>
 <div class="card card-outline-danger">
 <div class="card-body">
 <h4 class="card-title">Ganti Password</h4>
@@ -73,12 +64,4 @@
             }
         }
     }
-}else{
-    // Jika id dan session tidak sama, maka di redirect ke index.
-            ?>
-            <script type="text/javascript">
-            window.location.href = "index.php";
-            </script>
-            <?php
-        }
     ?>

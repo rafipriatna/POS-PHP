@@ -86,7 +86,7 @@
                     $img     = sha1($foto);
                     // Jika Mencoba upload & jika berhasil di upload
                     if(move_uploaded_file($file, $folder.$img)){
-                        // UPDATE tb_pelajar sesuai ID nya.
+                        // UPDATE tb_pengguna sesuai ID nya.
                         $koneksi->query("INSERT INTO tb_pengguna (nama, username, 
                         password, surel, level, foto) VALUES('$nama', '$username', 
                         '$password', '$surel', '$level', '$img')");
