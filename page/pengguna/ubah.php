@@ -1,9 +1,9 @@
 <?php
-    $id = $_GET['id'];
+    $id     = (int) $_GET['id'];
     // Mengambil data pengguna berdasarkan ID.
-    $rafi = $koneksi->query("SELECT * FROM tb_pengguna WHERE id = '$id'");
+    $rafi   = $koneksi->query("SELECT * FROM tb_pengguna WHERE id = '$id'");
     $tampil = $rafi->fetch_assoc();
-    $level = $tampil['level'];
+    $level  = $tampil['level'];
 ?>
 <div class="card card-outline-danger">
 <div class="card-body">
@@ -77,51 +77,71 @@
             $username = $_POST['username'];
             $surel = $_POST['surel'];
             $level = $_POST['level'];
-
-            $foto = $_FILES['foto']['name'];
-            $file = $_FILES['foto']['tmp_name'];
+            // Untuk foto
+            $foto     = $_FILES['foto']['name'];
+            $file     = $_FILES['foto']['tmp_name'];
+            $size     = $_FILES['foto']['size'];
+            $tipe     = $_FILES['foto']['type'];
+            $folder   = "images/foto/";
             $saring   = array('gif','png' ,'jpg');
             $ext      = pathinfo($foto, PATHINFO_EXTENSION);
-            // Jika ada fotonya upload foto ke images/foto.
-           if (!empty($file)){
-            // Cek ekstensi jika tidak sesuai $saring.
-                if (!in_array($ext, $saring)){
+        // Proses ubah data.
+        if (strlen($foto)){
+            // Cek format foto.
+            $ext = pathinfo($foto, PATHINFO_EXTENSION);
+            if(in_array($ext, $saring)){
+                // Cek ukurannya.
+                // 5242880 = 5MB.
+                if($size<5242880){
+                    // Encrypt nama jadi hash sha1.
+                    $img     = sha1($foto);
+                    // Jika Mencoba upload & jika berhasil di upload
+                    if(move_uploaded_file($file, $folder.$img)){
+                        // UPDATE tb_pelajar sesuai ID nya.
+                        $koneksi->query("UPDATE tb_pengguna SET nama='$nama', 
+                        surel='$surel', foto='$img' WHERE id='$id'");
+                        ?>
+                        <script type="text/javascript">
+                        alert("Data berhasil disimpan!");
+                        window.location.href="?page=pengguna";
+                        </script>
+                        <?php
+                    }else{
+                        // Jika gagal di upload.
+                        ?>
+                        <script type="text/javascript">
+                        alert("Error!");
+                        </script>
+                        <?php
+                    }
+                }else{
+                    // Jika gambar melebihi ukuran yang ditentukan.
                     ?>
                     <script type="text/javascript">
-                   alert("Error!");
-                   </script>
-                   <?php
-
-                }else{
-            $upload = move_uploaded_file($file, "images/foto/".$foto);                
-            // Update data di tb_pengguna.
-                    $sql = $koneksi->query("UPDATE tb_pengguna SET nama='$nama', 
-                    surel='$surel', foto='$foto' WHERE id='$id'");
-            // Jika berhasil.
-            if ($sql){
-                ?>
-                <script type="text/javascript">
-                alert("Data berhasil disimpan!");
-                window.location.href="?page=pengguna";
-                </script>
-                <?php
+                    alert("Ukuran gambar terlalu besar! (Max : 5MB)");
+                    </script>
+                    <?php
                 }
-            }
-            }else{               
-            // Jika tidak ada fotonya, disimpan di tb_pengguna.
-            $sql = $koneksi->query("UPDATE tb_pengguna SET nama='$nama', username='$username', 
-            surel='$surel', level='$level' WHERE id='$id'");
-            // Jika berhasil disimpan.
-            if ($sql){
+            }else{
+                // Jika format gambar tidak sesuai dengan $saring
                 ?>
                 <script type="text/javascript">
-                alert("Data berhasil disimpan!");
-                window.location.href="?page=pengguna";
+                alert("Format gambar tidak dizinkan!");
                 </script>
                 <?php
+            }
+        }else{
+            // Jika tidak upload foto, diganti dengan tanpa_foto.jpg
+            $koneksi->query("UPDATE tb_pengguna SET nama='$nama', username='$username', 
+            surel='$surel', level='$level' WHERE id='$id'");
+            ?>
+            <script type="text/javascript">
+            alert("Data berhasil disimpan!");
+            window.location.href="?page=pengguna";
+            </script>
+            <?php
         }
     }
-}
         
     
     ?>

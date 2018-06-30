@@ -65,55 +65,75 @@
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $surel = $_POST['surel'];
             $level = $_POST['level'];
-            $foto = $_FILES['foto']['name'];
-            $file = $_FILES['foto']['tmp_name'];
-
+            // Untuk foto
+            $foto     = $_FILES['foto']['name'];
+            $file     = $_FILES['foto']['tmp_name'];
+            $size     = $_FILES['foto']['size'];
+            $tipe     = $_FILES['foto']['type'];
+            $folder   = "images/foto/";
             $saring   = array('gif','png' ,'jpg');
             $ext      = pathinfo($foto, PATHINFO_EXTENSION);
             
-           // Jika upload foto maka disimpan di images/foto.        
-           if (!empty($file)){
-            // Cek ekstensi jika tidak sesuai $saring.
-                if (!in_array($ext, $saring)){
-                    ?>
-                    <script type="text/javascript">
-                   alert("Error!");
-                   </script>
-                   <?php
-
-                }else{
-                $upload = move_uploaded_file($file, "images/foto/".$foto);                
-            // Update data di tb_pengguna.
-                $sql = $koneksi->query("INSERT INTO tb_pengguna (nama, username, 
-                password, surel, level, foto) VALUES('$nama', '$username', 
-                '$password', '$surel', '$level', '$foto')");
-            // Jika berhasil.
-                    if ($sql){
+        // Proses ubah data.
+        if (strlen($foto)){
+            // Cek format foto.
+            $ext = pathinfo($foto, PATHINFO_EXTENSION);
+            if(in_array($ext, $saring)){
+                // Cek ukurannya.
+                // 5242880 = 5MB.
+                if($size<5242880){
+                    // Encrypt nama jadi hash sha1.
+                    $img     = sha1($foto);
+                    // Jika Mencoba upload & jika berhasil di upload
+                    if(move_uploaded_file($file, $folder.$img)){
+                        // UPDATE tb_pelajar sesuai ID nya.
+                        $koneksi->query("INSERT INTO tb_pengguna (nama, username, 
+                        password, surel, level, foto) VALUES('$nama', '$username', 
+                        '$password', '$surel', '$level', '$img')");
                         ?>
-                         <script type="text/javascript">
+                        <script type="text/javascript">
                         alert("Data berhasil disimpan!");
                         window.location.href="?page=pengguna";
                         </script>
                         <?php
+                    }else{
+                        // Jika gagal di upload.
+                        ?>
+                        <script type="text/javascript">
+                        alert("Error!");
+                        </script>
+                        <?php
                     }
+                }else{
+                    // Jika gambar melebihi ukuran yang ditentukan.
+                    ?>
+                    <script type="text/javascript">
+                    alert("Ukuran gambar terlalu besar! (Max : 5MB)");
+                    </script>
+                    <?php
                 }
-            }else{               
-            // Jika tidak upload foto maka gunakan foto tanpa_foto.jpg.
-                $noimg = "tanpa_foto.jpg";
-                $sql = $koneksi->query("INSERT INTO tb_pengguna (nama, username, 
-                password, surel, level, foto) VALUES('$nama', '$username', 
-                '$password', '$surel', '$level', '$noimg')");
-            // Jika berhasil.
-            if ($sql){
+            }else{
+                // Jika format gambar tidak sesuai dengan $saring
                 ?>
-                 <script type="text/javascript">
-                alert("Data berhasil disimpan!");
-                window.location.href="?page=pengguna";
+                <script type="text/javascript">
+                alert("Format gambar tidak dizinkan!");
                 </script>
                 <?php
+            }
+        }else{
+            // Jika tidak upload foto, diganti dengan tanpa_foto.jpg
+            $noimg = "tanpa_foto.jpg";
+            $koneksi->query("INSERT INTO tb_pengguna (nama, username, 
+            password, surel, level, foto) VALUES('$nama', '$username', 
+            '$password', '$surel', '$level', '$noimg')");
+            ?>
+            <script type="text/javascript">
+            alert("Data berhasil disimpan!");
+            window.location.href="?page=pengguna";
+            </script>
+            <?php
         }
     }
-}
     ?>
 <script type="text/javascript">
     // Untuk me-nonaktifkan spasi di input username.
