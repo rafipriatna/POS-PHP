@@ -1,15 +1,9 @@
 <div class="card card-outline-danger">
 <div class="card-body">
 <h4 class="card-title">Transaksi</h4>
-                                    <h6 class="card-subtitle">Data transaksi keseluruhan</h6>
-                                <div class="table-responsive m-t-40">
-                                <?php
-                                $level = $_SESSION['level'] == 'Admin';
-                                if($level){
-                                 ?>
-                                <a onclick="return confirm('Apakah kamu yakin? Semua data akan dihapus.')" href="?page=transaksi&aksi=hapus" class="btn btn-danger">Hapus data transaksi</a>
-                                <?php } ?>
-                                    <table id="example23"  class="display nowrap table table-bordered table-striped">
+                                    <h6 class="card-subtitle">Data transaksi hari ini</h6>
+                                <div class="table-responsive m-t-0">
+                                    <table id="myTable"  class="display nowrap table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -31,8 +25,11 @@
                                             }
                                             $no = 1;
                                         // Mengambil data dari tb_datapenjualan.
+                                        // Mengambil berdasarkan tanggal hari ini.
+                                            $setting    = new DateTime('NOW', new DateTimeZone('Asia/Jakarta'));
+                                            $hariini    = $setting->format('Y-m-d');
                                             $sql = $koneksi->query("SELECT * FROM tb_pengguna, tb_pembayaran, tb_datapenjualan WHERE tb_datapenjualan.pembayaran=tb_pembayaran.id_pembayaran
-                                            AND tb_datapenjualan.id_kasir=tb_pengguna.id");
+                                            AND tb_datapenjualan.id_kasir=tb_pengguna.id AND tanggal = '$hariini'");
                                             while ($data = $sql->fetch_assoc()){
                                         ?>
                                         <tr>
