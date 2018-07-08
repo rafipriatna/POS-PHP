@@ -254,9 +254,6 @@
                                     if ($aksi == "") {
                                         include "page/transaksi/transaksi.php";
                                     }
-                                    if ($aksi == "hapus") {
-                                        include "page/transaksi/hapus.php";
-                                    }
                                 }
                             
                                 
