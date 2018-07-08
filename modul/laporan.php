@@ -10,7 +10,7 @@ function rupiah($angka){
 	return $hasil_rupiah;
 }
 ?>
-<title>Laporan</title>
+<title>Laporan <?php echo $namasitus;?></title>
 <style>
 table {
     border-collapse: collapse;
@@ -43,7 +43,7 @@ tr:hover {background-color:#f5f5f5;}
                                                 <th>Nama barang</th>
                                                 <th>Jumlah</th>
                                                 <th>Harga jual</th>
-                                                <th>Total</th>
+                                                <th>Total harga</th>
                                                 <th>Keuntungan</th>
                                             </tr>
                                         </thead>

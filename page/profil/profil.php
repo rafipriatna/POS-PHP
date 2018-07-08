@@ -72,7 +72,7 @@
                     if(move_uploaded_file($file, $folder.$img)){
                         // UPDATE tb_pengguna sesuai ID nya.
                         $koneksi->query("UPDATE tb_pengguna SET nama='$nama', 
-                        surel='$surel', foto='$foto' WHERE id='$id'");
+                        surel='$surel', foto='$img' WHERE id='$id'");
                         ?>
                         <script type="text/javascript">
                         alert("Data berhasil disimpan!");
