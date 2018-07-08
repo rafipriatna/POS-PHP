@@ -113,6 +113,7 @@
                         </li>
                         <li> <a href="?page=pelanggan" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Pelanggan</span></a>
                         </li>
+                        <li><a href="#" data-toggle="modal" aria-expanded="false" data-target="#myModal"><i class="fa fa-area-chart"></i><span class="hide-menu">Laporan</span></a></li>
                         <li> <a href="?page=pengaturan" aria-expanded="false"><i class="fa fa-cogs"></i><span class="hide-menu">Pengaturan</span></a>
                         </li>
                         <?php } ?>
@@ -135,7 +136,7 @@
                                 // Halaman universal
                                 if ($page == ""){
                                     if ($aksi == ""){
-                                        include "modul/dasbor.php";
+                                        include "page/dasbor/dasbor.php";
                                     }
 
                                 }
@@ -244,6 +245,9 @@
                                     if ($aksi == "hapus") {
                                         include "page/penjualan/hapus.php";
                                     }
+                                    if ($aksi == "laporan"){
+                                        include "page/penjualan/laporan.php";
+                                    }
                                 }
 
                                 if ($page == "transaksi") {
@@ -262,6 +266,35 @@
             </div>
         </div>
     </div>
+
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Laporan</h5>
+      </div>
+      <div class="modal-body">
+        <p>Lihat laporan berdasarkan tanggal.</p>
+        <form method="POST" action="modul/laporan.php">
+            <div class="form-group">
+                <label>Dari tanggal</label>
+                <input class="form-control" type="date" name="daritanggal">
+            </div>
+            <div class="form-group">
+                <label>Sampai tanggal</label>
+                <input class="form-control" type="date" name="sampaitanggal">
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Lihat</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+                            </form>
+    </div>
+  </div>
+</div>
+
     <script src="js/lib/jquery/jquery.min.js"></script>
     <script src="js/lib/bootstrap/js/popper.min.js"></script>
     <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
@@ -279,9 +312,6 @@
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
-    <script src="js/lib/sweetalert/sweetalert.min.js"></script>
-    <!-- scripit init-->
-    <script src="js/lib/sweetalert/sweetalert.init.js"></script>
     
 
 </body>
