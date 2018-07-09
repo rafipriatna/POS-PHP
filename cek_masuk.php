@@ -14,12 +14,12 @@
 			if(password_verify($password, $row['password'])){
 				$id_pelogin				= $row['id'];
 				$nama_pelogin 			= $row['nama'];
-				$foto_pelogin 			= $row['foto'];
+				$last_pelogin 			= $row['kpn_masuk'];
 				$level_pelogin			= $row['level'];
 				session_start();
 				$_SESSION['id']			= $id_pelogin;
     			$_SESSION['nama'] 		= $nama_pelogin;
-      			$_SESSION['foto'] 		= $foto_pelogin;
+      			$_SESSION['kpn_masuk'] 	= $last_pelogin;
 				$_SESSION['level'] 		= $level_pelogin;
 				// Mengambil waktu last login.
 				$setting    			= new DateTime('NOW', new DateTimeZone('Asia/Jakarta'));

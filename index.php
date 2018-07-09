@@ -19,10 +19,12 @@
     $_SESSION['waktu'] = time();
     // Masuk ke halaman utama.
     // Mengambil id session yang masuk.
-    $id     = $_SESSION['id'];
+    $id             = $_SESSION['id'];
     // Mengambil data dari tb_pengaturan dan tb_pengguna dan mengambil id dari sessionnya.
-    $rafi = $koneksi->query("SELECT * FROM tb_pengaturan, tb_pengguna WHERE id = '$id'");
-    $tampil = $rafi->fetch_assoc();
+    $rafi           = $koneksi->query("SELECT * FROM tb_pengaturan, tb_pengguna WHERE id = '$id'");
+    $tampil         = $rafi->fetch_assoc();
+    $id_pelogin     = $_SESSION['id'];
+    $last           = $_SESSION['masuk'];
 
 ?>
 <html lang="en">
@@ -44,7 +46,13 @@
     <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
+<script type="text/javascript">
+    // Langsung update ke database last login.
+    // Jika sewaktu-waktu pengguna tutup tab / browser, data tetap tersimpan.
+    window.onbeforeunload = function (e) {
+    $.get("<?php $koneksi->query("UPDATE tb_pengguna SET kpn_masuk= '$last' WHERE id='$id_pelogin'"); ?>");
+};
+    </script>
 <body class="fix-header fix-sidebar">
     
     <div id="main-wrapper">
@@ -64,7 +72,7 @@
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <b>LAST LOGIN : </b><?php echo $tampil['kpn_masuk'];?></i>
+                            <b>LAST LOGIN : </b><?php echo $_SESSION['kpn_masuk'];?></i>
 							</a>
                         </li>
                         <li class="nav-item dropdown">
