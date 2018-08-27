@@ -38,6 +38,9 @@
 			// Jika password dan username tidak cocok dengan yang di database.
 				echo "<script type='text/javascript'>alert('Username atau password salah!'); window.location.href='masuk.php';</script>";
 			}
-		}
+		}else{
+			// Jika username tidak cocok dengan yang di database.
+				echo "<script type='text/javascript'>alert('Username atau password salah!'); window.location.href='masuk.php';</script>";
+			}
 	}
 ?>
