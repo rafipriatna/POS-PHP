@@ -1,6 +1,6 @@
 # Point of sale
 
-## LOGIN
+### LOGIN
 ADMIN :<br>
 Username : admin<br>
 Password : iniadmin
@@ -8,5 +8,3 @@ Password : iniadmin
 KASIR :<br>
 Username : kasir<br>
 Password : inikasir
-
-Terima Kasih!
